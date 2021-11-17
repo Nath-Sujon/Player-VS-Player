@@ -1,72 +1,64 @@
-(function(){ 
-  const player1Score = document.querySelector('#player1Score')
-  const player2Score = document.querySelector('#player2Score')
-  const winningScoreDisplay = document.querySelector('p span')
-  const inputScore = document.querySelector('#inputScore')
-  const player1Btn = document.querySelector('#player1btn')
-  const player2Btn = document.querySelector('#player2btn');
-  const resetBtn = document.querySelector('#resetbtn');
-  
+//IIFE
+//procedural programming
+(function() {
+  const p1ScoreDisplay = document.getElementById('p1Score');
+  const p2ScoreDisplay = document.getElementById('p2Score');
+  const wScoreDisplay = document.querySelector('p span');
+  const inputScore = document.getElementById('inputScore');
+  const p1Btn = document.getElementById('p1Btn');
+  const p2Btn = document.getElementById('p2Btn');
+  const resetBtn = document.getElementById('resetBtn');
   let p1Score = 0;
   let p2Score = 0;
-  let winningScore = 5;
+  let winingScore = 5;
   let gameOver = false;
-  
-  player1Btn.addEventListener('click',() => {
-    if(!gameOver){
-      p1Score++;
-      getWinner(p1Score,winningScore)
-    }
-    // show changed data
-    player1Score.textContent = p1Score;
-  })
-  
-  
-  player2Btn.addEventListener('click',() => {
-    if(!gameOver){
-      p2Score++;
-      getWinner(p2Score,winningScore)
-    }
-    player2Score.textContent = p2Score
-  })
-  
-  
-  inputScore.addEventListener('change',()=>{
-    winningScore = Number(inputScore.value)
-    winningScoreDisplay.textContent = winningScore
-    inputScore.value = ''
-    reset()
-  })
-  
-  function getWinner(oldScore,winningScore){
-    if(oldScore === winningScore){
-      if(p1Score === winningScore){
-      player1Score.classList.add('winner')
-      } else{ 
-      player2Score.classList.add('winner')
+
+  function winner(oldScore, winingScore) {
+    if (oldScore === winingScore) {
+      if (p1Score === winingScore) {
+        p1ScoreDisplay.classList.add('winner');
+      } else {
+        p2ScoreDisplay.classList.add('winner');
       }
-      //game over
-      gameOver = true
-      player1Btn.setAttribute('disabled','disabled')
-      player2Btn.setAttribute('disabled','disabled')
+      gameOver = true;
+      p1Btn.setAttribute('disabled', 'disabled');
+      p2Btn.setAttribute('disabled', 'disabled');
     }
   }
-  
-  
-  resetBtn.addEventListener('click',reset)
-  
-  function reset(){
+  function reset() {
     p1Score = 0;
     p2Score = 0;
     gameOver = false;
-    player1Score.textContent = 0;
-    player2Score.textContent = 0;
-    player1Btn.removeAttribute('disabled')
-    player2Btn.removeAttribute('disabled')
-    player1Score.classList.remove('winner')
-    player2Score.classList.remove('winner')
+    p1ScoreDisplay.textContent = 0;
+    p2ScoreDisplay.textContent = 0;
+    p1ScoreDisplay.classList.remove('winner');
+    p2ScoreDisplay.classList.remove('winner');
+    p1Btn.removeAttribute('disabled');
+    p2Btn.removeAttribute('disabled');
   }
-}())
 
+  p1Btn.addEventListener('click', () => {
+    if (!gameOver) {
+      p1Score++;
+      winner(p1Score, winingScore);
+    }
 
+    p1ScoreDisplay.textContent = p1Score;
+  });
+  p2Btn.addEventListener('click', () => {
+    if (!gameOver) {
+      p2Score++;
+      winner(p2Score, winingScore);
+      p2ScoreDisplay.textContent = p2Score;
+    }
+  });
+  inputScore.addEventListener('change', () => {
+    winingScore = Number(inputScore.value);
+    wScoreDisplay.textContent = inputScore.value;
+    inputScore.value = '';
+    reset();
+  });
+
+  resetBtn.addEventListener('click', reset);
+})();  
 
